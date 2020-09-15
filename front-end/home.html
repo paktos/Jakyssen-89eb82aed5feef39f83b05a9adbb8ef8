@@ -1,0 +1,84 @@
+<!-- <?php
+if(!isset($_SESSION)){
+    session_start();
+    $_SESSION['username']="";
+}
+
+?> -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+</head>
+<body>
+	<div class="block">
+		<!-- <p>aa <?php echo $_SESSION['username'] ?></p> -->
+		<p id="jam" class="center"></p>
+	</div>
+	
+	<button class="btn" onclick="checkUser()">Hello</button>
+</body>
+</html>
+<script src="jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+function waktu(){
+  	var today = new Date();
+	var jam = today.getHours();
+	var menit = today.getMinutes();
+	var detik = today.getSeconds();
+	var ok = jam +":" + menit + ":" +detik;
+	return ok;
+  }
+
+  setInterval(function(){
+
+    var ok = waktu();
+    $("#jam").text(ok);
+
+  }, 1000);
+
+  
+
+  // function checkUser(){
+  // 		var user = "<?php echo $_SESSION['username'] ?>";
+  // 		if (user == null) {
+  // 			var waktu= waktu();
+  // 			alert("Hai" + username + ", waktu login anda" + waktu);
+  // 		}
+  // 		else{
+  // 			window.location = "login.php";
+  // 		}
+  // }
+
+  function checkUser(){
+
+     // var user = "<?php echo $_SESSION['username'] ?>";
+          $.ajax({
+              method: "POST",
+              url: "../back-end/checklogin.php",
+              data: {},
+              dataType:'json',
+              success: function(data){
+                 if (data != null) {
+                   console.log(data);
+                   var a = data.username;
+                   var b = data.waktulogin;
+                   alert("Hai " + a + ", waktu login anda" + b);
+                 }
+                 else{
+                   window.location = "login.html";
+                 }
+            },
+            error: function(data2){
+                alert(data2);
+                console.log(data2);
+            }     
+          });
+
+
+    
+  }
+
+
+</script>
